@@ -1,10 +1,19 @@
 from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from passlib.context import CryptContext
 
 from typing import List
 
 app = FastAPI()
+
+
+SECRET_KEY = ""  
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 
 #Модель для пользователя 
 class User(BaseModel):
@@ -27,6 +36,17 @@ class UserLogin(BaseModel):
 class Token(BaseModel):
     token:str
     token_type:str
+
+
+users_db: dict = {}
+
+def get_user(username: str):
+    if username in users_db:
+        user_dict = users_db[username]
+        return User(**user_dict)
+    return None
+
+
 
 #Настройка CORS
 app.add_middleware(
