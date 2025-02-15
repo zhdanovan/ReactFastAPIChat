@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {Form} from "@heroui/form";
 
 const Auth: React.FC<{ onLogin: (token: string) => void }> = ({ onLogin }) => {
   const [username, setUsername] = useState('');
@@ -22,7 +23,7 @@ const Auth: React.FC<{ onLogin: (token: string) => void }> = ({ onLogin }) => {
   };
 
 return (
-  <form onSubmit={handleSubmit}>
+  <Form onSubmit={handleSubmit}>
     <input
       type="text"
       placeholder="Username"
@@ -39,7 +40,7 @@ return (
     <button type="button" onClick={() => setIsRegister(!isRegister)}>
       {isRegister ? 'Switch to Login' : 'Switch to Register'}
     </button>
-  </form>
+  </Form>
 );
 }
 
