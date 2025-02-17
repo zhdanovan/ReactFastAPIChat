@@ -1,16 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+interface Message{
+  text:string;
+}
+
 const Chat: React.FC = () => {
-  const [messages, setMessages] = useState<string[]>([]);  
+  const [messages, setMessages] = useState<Message[]>([]);  
   const [input, setInput] = useState<string>('');  
   const socketRef = useRef<WebSocket | null>(null);  
 
   useEffect(() => {
-    socketRef.current = new WebSocket('ws://localhost:8000/ws');
-
-    socketRef.current.onmessage = (event) => {
-      setMessages((prevMessages) => [...prevMessages, event.data]);
+    const socket = new WebSocket('ws://localhost:8000/ws');
+    socket.onmessage = (event) => {
+      const message : Message = {text : event.data};
+      setMessages((prevMessage)=>[...prevMessage,message]);
     };
+
+    socketRef.current = socket
 
     return () => {
       if (socketRef.current) {
@@ -30,7 +36,7 @@ const Chat: React.FC = () => {
     <div>
       <div>
         {messages.map((msg, index) => (
-          <div key={index}>{msg}</div>
+          <div key={index}>{msg.text}</div>
         ))}
       </div>
       <input
