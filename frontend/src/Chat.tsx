@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 interface Message{
   text:string;
+  sending_time:string;
 }
 
 const Chat: React.FC = () => {
@@ -12,7 +13,8 @@ const Chat: React.FC = () => {
   useEffect(() => {
     const socket = new WebSocket('ws://localhost:8000/ws');
     socket.onmessage = (event) => {
-      const message : Message = {text : event.data};
+      const data = JSON.parse(event.data)
+      const message : Message = {text : data.text, sending_time:data.sending_time};
       setMessages((prevMessage)=>[...prevMessage,message]);
     };
 
@@ -36,7 +38,9 @@ const Chat: React.FC = () => {
     <div>
       <div>
         {messages.map((msg, index) => (
-          <div key={index}>{msg.text}</div>
+           <div key={index} style={{ marginBottom: '8px' }}>
+           <strong>{msg.text}</strong> - <span style={{ color: 'gray' }}>{msg.sending_time}</span>
+         </div>
         ))}
       </div>
       <input
