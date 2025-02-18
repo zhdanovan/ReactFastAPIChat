@@ -2,6 +2,7 @@ from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from passlib.context import CryptContext
+from datetime import datetime
 
 from typing import List
 
@@ -54,7 +55,6 @@ app.add_middleware(
     allow_headers=["*"],  
 )
 
-
 active_connections: List[WebSocket] = []
 
 @app.websocket("/ws")
@@ -64,8 +64,14 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         while True:
             data = await websocket.receive_text() 
+
+            message = {
+                "text" : data,
+                "sending_time":datetime.now().strftime("%Y-%m-%d %H:%M:%S") 
+            }
             for connection in active_connections:
-                await connection.send_text(f"Сообщение: {data}")
+                await connection.send_text(f"Сообщение: {message}")
+                
     except Exception as e:
         print(f"Ошибка: {e}")
     finally:
