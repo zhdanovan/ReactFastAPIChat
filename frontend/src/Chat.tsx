@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Notification from './Notification';
 
 interface Message{
   text:string;
@@ -8,6 +9,7 @@ interface Message{
 const Chat: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);  
   const [input, setInput] = useState<string>('');  
+  const [notificationMessage, setNotificationMessage] = useState<string | null>(null);
   const socketRef = useRef<WebSocket | null>(null);  
 
   useEffect(() => {
@@ -16,6 +18,7 @@ const Chat: React.FC = () => {
       const data = JSON.parse(event.data)
       const message : Message = {text : data.text, sending_time:data.sending_time};
       setMessages((prevMessage)=>[...prevMessage,message]);
+      setNotificationMessage(`Новое сообщение: ${data.text}`);
     };
 
     socketRef.current = socket
@@ -27,10 +30,21 @@ const Chat: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (notificationMessage) {
+      const timer = setTimeout(() => {
+        setNotificationMessage(null);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [notificationMessage]);
+
   const sendMessage = () => {
     if (socketRef.current && input.trim()) {
       socketRef.current.send(input);  
       setInput('');  
+      setNotificationMessage('Сообщение отправлено');
     }
   };
 
@@ -43,6 +57,7 @@ const Chat: React.FC = () => {
          </div>
         ))}
       </div>
+      <div>
       <input
         type="text"
         value={input}
@@ -50,7 +65,9 @@ const Chat: React.FC = () => {
       />
       <button onClick={sendMessage}>Отправить</button>
     </div>
-  );
+    {notificationMessage && <Notification message={notificationMessage} duration={3000} />}
+  </div>
+);
 };
 
 export default Chat;
