@@ -49,21 +49,84 @@ const Chat: React.FC = () => {
   };
 
   return (
-    <div>
-      <div>
-        {messages.map((msg, index) => (
-           <div key={index} style={{ marginBottom: '8px' }}>
-           <strong>{msg.text}</strong> - <span style={{ color: 'gray' }}>{msg.sending_time}</span>
-         </div>
-        ))}
-      </div>
-      <div>
+    <div
+    style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center', 
+      height: '100vh', 
+      boxSizing: 'border-box',
+    }}
+  >
+    <div
+      style={{
+        width: '100%',
+        maxWidth: '400px', 
+        height: '300px',
+        backgroundColor: '#f9f9f9',
+        borderRadius: '15px', 
+        overflowY: 'auto', 
+        border: '1px solid #ddd',
+        marginBottom: '20px',
+        padding: '10px',
+        boxSizing: 'border-box',
+      }}
+    >
+      {messages.map((msg, index) => (
+        <div
+          key={index}
+          style={{
+            marginBottom: '8px',
+            padding: '8px',
+            borderRadius: '8px',
+            backgroundColor: msg.text === input ? '#dcf8c6' : '#fff', 
+            color: '#333',
+            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
+          }}
+        >
+          <strong>{msg.text}</strong> -{' '}
+          <span style={{ color: 'gray', fontSize: '0.8em' }}>{msg.sending_time}</span>
+        </div>
+      ))}
+    </div>
+    <div
+      style={{
+        display: 'flex',
+        width: '100%',
+        maxWidth: '400px', 
+        alignItems: 'center',
+        gap: '10px', 
+      }}
+    >
       <input
         type="text"
         value={input}
         onChange={(e) => setInput(e.target.value)}
+        placeholder="Введите сообщение..."
+        style={{
+          flex: 1, 
+          padding: '10px',
+          borderRadius: '20px', 
+          border: '1px solid #ccc',
+          outline: 'none',
+          fontSize: '1rem',
+        }}
       />
-      <button onClick={sendMessage}>Отправить</button>
+      <button
+        onClick={sendMessage}
+        style={{
+          padding: '10px 20px',
+          borderRadius: '20px', 
+          backgroundColor: '#4CAF50',
+          color: '#fff',
+          border: 'none',
+          cursor: 'pointer',
+          fontSize: '1rem',
+          transition: 'background-color 0.3s ease',
+        }}
+      >
+        Отправить
+      </button>
     </div>
     {notificationMessage && <Notification message={notificationMessage} duration={3000} />}
   </div>
