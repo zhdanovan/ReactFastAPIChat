@@ -79,13 +79,13 @@ const Chat: React.FC = () => {
             marginBottom: '8px',
             padding: '8px',
             borderRadius: '8px',
-            backgroundColor: msg.text === input ? '#dcf8c6' : '#fff', 
-            color: '#333',
+            backgroundColor: '#005F5F', 
+            color: 'white',
             boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
           }}
         >
           <strong>{msg.text}</strong> -{' '}
-          <span style={{ color: 'gray', fontSize: '0.8em' }}>{msg.sending_time}</span>
+          <span style={{ color: '#fff', fontSize: '0.8em' }}>{msg.sending_time}</span>
         </div>
       ))}
     </div>
@@ -117,7 +117,7 @@ const Chat: React.FC = () => {
         style={{
           padding: '10px 20px',
           borderRadius: '20px', 
-          backgroundColor: '#4CAF50',
+          backgroundColor: '#005F5F',
           color: '#fff',
           border: 'none',
           cursor: 'pointer',
