@@ -1,0 +1,38 @@
+@keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px); 
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0); 
+    }
+  }
+  
+  .message {
+    margin-bottom: 8px;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    animation: slideInUp 0.5s ease-in-out; 
+  }
+  
+  .message .time {
+    font-size: 0.8em;
+  }
+
+   @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .sending-button {
+    animation: pulse 2s infinite ease-in-out;
+  } 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Notification from './Notification';
+import './styles.css';
 
 interface Message{
   text:string;
@@ -75,6 +76,7 @@ const Chat: React.FC = () => {
       {messages.map((msg, index) => (
         <div
           key={index}
+          className="message"
           style={{
             marginBottom: '8px',
             padding: '8px',
@@ -114,12 +116,14 @@ const Chat: React.FC = () => {
       />
       <button
         onClick={sendMessage}
+        className = "sending-button"
         style={{
           padding: '10px 20px',
           borderRadius: '20px', 
           backgroundColor: '#005F5F',
           color: '#fff',
           border: 'none',
+          outline:'none',
           cursor: 'pointer',
           fontSize: '1rem',
           transition: 'background-color 0.3s ease',
