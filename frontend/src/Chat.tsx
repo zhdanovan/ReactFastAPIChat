@@ -14,7 +14,8 @@ const Chat: React.FC = () => {
   const socketRef = useRef<WebSocket | null>(null);  
 
   useEffect(() => {
-    const socket = new WebSocket('ws://localhost:8000/ws');
+    const socketUrl = process.env.REACT_APP_WEBSOCKET_URL || '/api/ws';
+    const socket = new WebSocket(socketUrl);
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data)
       const message : Message = {text : data.text, sending_time:data.sending_time};
