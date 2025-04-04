@@ -11,6 +11,3 @@
 - Python 3.9+
 - Node.js 16+
 - npm или yarn
-
-### Vercel (Frontend)
-https://react-fast-api-chat.vercel.app/
